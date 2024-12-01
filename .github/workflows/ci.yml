@@ -1,0 +1,54 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+      - name: 🛠 Prepare Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - name: 🛠 Additional tools
+        uses: taiki-e/install-action@v2
+        with:
+          tool: just
+      - name: ♻️ cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+      - name: ✅ Run Cargo check
+        run: just check
+      - name: 🎨 Run linters
+        run: just qa
+  days:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 2
+      matrix:
+        day: ['01']
+        bench: [true]
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+      - name: 🛠 Prepare Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - name: 🛠 Additional tools
+        uses: taiki-e/install-action@v2
+        with:
+          tool: just
+      - name: ♻️ cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+      - name: ✅ Run test(s) for day ${{ matrix.day }}
+        run: just test ${{ matrix.day }}
+      - name: ⏱️ Run benchmark(s) for day ${{ matrix.day }}
+        if: ${{ matrix.bench }}
+        run: just bench ${{ matrix.day }}
