@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 pub fn similarities_v1(left: &[usize], right: &[usize]) -> Vec<usize> {
     let mut similarities = Vec::with_capacity(left.len());
     for left in left.iter() {
@@ -9,11 +7,15 @@ pub fn similarities_v1(left: &[usize], right: &[usize]) -> Vec<usize> {
 }
 
 pub fn similarities_v2(left: &[usize], right: &[usize]) -> Vec<usize> {
+    #[cfg(not(test))]
+    pub type Collection = std::collections::HashMap<usize, Similarity>;
+    #[cfg(test)]
+    pub type Collection = std::collections::BTreeMap<usize, Similarity>;
     struct Similarity {
         pub similarity: usize,
         pub count: usize,
     }
-    let mut similarities: HashMap<usize, Similarity> = HashMap::with_capacity(left.len());
+    let mut similarities: Collection = Collection::new();
     for left in left.iter() {
         if let Some(similarity) = similarities.get_mut(left) {
             similarity.count += 1;
