@@ -26,4 +26,4 @@ lint:
   touch {{ join(DAY, 'src', 'part', 'mod.rs') }}
   echo "mod one;\nmod two;\npub use one::*;\npub use two::*;" > {{ join(DAY, 'src', 'part', 'mod.rs') }}
   echo "mod part;\npub use part::*;" > {{ join(DAY, 'src', 'lib.rs') }}
-  echo "Don't forget to update ci.yml ;)"
+  echo "👉 don't forget to update ci.yml ;)"
