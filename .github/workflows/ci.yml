@@ -24,7 +24,7 @@ jobs:
       - name: ♻️ cache Rust dependencies
         uses: Swatinem/rust-cache@v2
       - name: ✅ Run Cargo check
-        run: just check
+        run: cargo check
       - name: 🎨 Run linters
         run: just qa
   days:
