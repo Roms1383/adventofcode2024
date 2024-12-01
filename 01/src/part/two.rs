@@ -39,13 +39,13 @@ pub fn similarities_v2(left: &[usize], right: &[usize]) -> Vec<usize> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{parse, SAMPLE};
+    use crate::{parse_v1, SAMPLE};
 
     use super::*;
 
     #[test]
     fn can_get_similarities() {
-        let (left, right) = parse(SAMPLE);
+        let (left, right) = parse_v1(SAMPLE);
         let similarities = similarities_v1(&left, &right);
         assert_eq!(similarities[0], 9);
         assert_eq!(similarities[1], 4);
@@ -54,7 +54,7 @@ mod tests {
         assert_eq!(similarities[4], 9);
         assert_eq!(similarities[5], 9);
 
-        let (left, right) = parse(SAMPLE);
+        let (left, right) = parse_v1(SAMPLE);
         let similarities = similarities_v2(&left, &right);
         assert_eq!(similarities[0], 27);
         assert_eq!(similarities[1], 4);

@@ -10,13 +10,13 @@ pub fn distances(mut left: Vec<usize>, mut right: Vec<usize>) -> Vec<usize> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{parse, SAMPLE};
+    use crate::{parse_v1, SAMPLE};
 
     use super::*;
 
     #[test]
     fn can_get_distances() {
-        let (left, right) = parse(SAMPLE);
+        let (left, right) = parse_v1(SAMPLE);
         let distances = distances(left, right);
         assert_eq!(distances[0], 2);
         assert_eq!(distances[1], 1);
