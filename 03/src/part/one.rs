@@ -1,15 +1,15 @@
-pub struct Mul(pub usize, pub usize);
+use super::Mul;
 
 pub fn parse(input: &str) -> Vec<Mul> {
     let mut out = vec![];
     let mut mul = 0;
-    let mut operator = String::new();
-    let mut operand = String::new();
+    let mut left = String::new();
+    let mut right = String::new();
     for char in input.chars().into_iter() {
         if !char.is_digit(10) && !['m', 'u', 'l', '(', ',', ')'].contains(&char) {
             mul = 0;
-            operator.clear();
-            operand.clear();
+            left.clear();
+            right.clear();
             continue;
         }
         match (char, mul) {
@@ -20,20 +20,20 @@ pub fn parse(input: &str) -> Vec<Mul> {
                 mul += 1;
             }
             (char, 4) if char.is_digit(10) => {
-                operator.push(char);
+                left.push(char);
             }
             (',', 4) => {
                 mul += 1;
                 continue;
             }
             (char, 5) if char.is_digit(10) => {
-                operand.push(char);
+                right.push(char);
             }
             (')', 5) => {
-                out.push(Mul(operator.parse().unwrap(), operand.parse().unwrap()));
+                out.push(Mul(left.parse().unwrap(), right.parse().unwrap()));
                 mul = 0;
-                operator.clear();
-                operand.clear();
+                left.clear();
+                right.clear();
                 continue;
             }
             _ => continue,
@@ -44,9 +44,10 @@ pub fn parse(input: &str) -> Vec<Mul> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{part::SAMPLE, Mul};
+    const SAMPLE: &str = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
 
     use super::parse;
+    use crate::Mul;
 
     #[test]
     fn can_parse() {
