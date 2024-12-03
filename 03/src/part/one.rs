@@ -5,8 +5,8 @@ pub fn parse(input: &str) -> Vec<Mul> {
     let mut mul = 0;
     let mut left = String::new();
     let mut right = String::new();
-    for char in input.chars().into_iter() {
-        if !char.is_digit(10) && !['m', 'u', 'l', '(', ',', ')'].contains(&char) {
+    for char in input.chars() {
+        if !char.is_ascii_digit() && !['m', 'u', 'l', '(', ',', ')'].contains(&char) {
             mul = 0;
             left.clear();
             right.clear();
@@ -19,14 +19,14 @@ pub fn parse(input: &str) -> Vec<Mul> {
             ('u', 1) | ('l', 2) | ('(', 3) => {
                 mul += 1;
             }
-            (char, 4) if char.is_digit(10) => {
+            (char, 4) if char.is_ascii_digit() => {
                 left.push(char);
             }
             (',', 4) => {
                 mul += 1;
                 continue;
             }
-            (char, 5) if char.is_digit(10) => {
+            (char, 5) if char.is_ascii_digit() => {
                 right.push(char);
             }
             (')', 5) => {

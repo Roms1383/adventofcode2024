@@ -69,8 +69,8 @@ impl ValidChars for Dont {
 pub fn parse(input: &str) -> Vec<Mul> {
     let mut out = vec![];
     let mut state = State::default();
-    for char in input.chars().into_iter() {
-        if !char.is_digit(10)
+    for char in input.chars() {
+        if !char.is_ascii_digit()
             && !Mul::valid_chars().contains(&char)
             && !Do::valid_chars().contains(&char)
             && !Dont::valid_chars().contains(&char)
@@ -87,9 +87,9 @@ pub fn parse(input: &str) -> Vec<Mul> {
             // mul
             'm' if state.enable => state.mul = 1,
             'u' | 'l' | '(' if state.mul >= 1 && state.enable => state.mul += 1,
-            c if c.is_digit(10) && state.mul == 4 && state.enable => state.left.push(c),
+            c if c.is_ascii_digit() && state.mul == 4 && state.enable => state.left.push(c),
             ',' if state.mul == 4 && state.enable => state.mul += 1,
-            c if c.is_digit(10) && state.mul == 5 && state.enable => state.right.push(c),
+            c if c.is_ascii_digit() && state.mul == 5 && state.enable => state.right.push(c),
             ')' if state.mul == 5 && state.enable => {
                 out.push(state.current());
                 state.reset();
